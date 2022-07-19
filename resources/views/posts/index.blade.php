@@ -7,8 +7,8 @@
 
 {{-- @each('blog_posts.partials.blog_post', $blog_posts, 'post') --}}
 
-@forelse($blog_posts as $key => $blog_post)
-@include('blog_posts.partials.blog_post', [])
+@forelse($posts as $key => $post)
+@include('posts.partials.post', [])
 
 @empty
 NO POSTS FOUND

@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
-@section('title', $blog_post['title'])
+@section('title', $post['title'])
 
 @section('content')
-@if($blog_post['is_new'])
+@if($post['is_new'])
 <div>a new blog post! using if</div>
-@elseif(!$blog_post['is_new'])
+@elseif(!$post['is_new'])
 <div>blog post is old! using elseif</div>
 @endif
 
-@unless($blog_post['is_new'])
+@unless($post['is_new'])
 <div>it is an old post using unless</div>
 @endunless
 
 
-<h1>{{ $blog_post['title'] }}</h1>
-<p>{{ $blog_post['content'] }}</p>
-@isset($blog_post['has_comments'])
+<h1>{{ $post['title'] }}</h1>
+<p>{{ $post['content'] }}</p>
+@isset($post['has_comments'])
 <div>the post has some commnets using isset</div>
     
 @endisset
