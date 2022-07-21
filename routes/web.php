@@ -38,8 +38,9 @@ Route::get('/single', AboutController::class);
 //use all...
 // Route::resource('blog_posts', BlogPostsController::class);
 //heres how we limit which routes are registered...
-Route::resource('posts', PostsController::class) -> 
-only(['index', 'show', 'create', 'store']);
+Route::resource('posts', PostsController::class); 
+// -> 
+// only(['index', 'show', 'create', 'store', 'edit', 'update']);
 // Route::resource('blog_posts', BlogPostsController::class) -> except('show');
 
 // Route::get('/blog_posts', function() use($blog_posts){

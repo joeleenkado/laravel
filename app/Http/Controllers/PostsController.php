@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\StorePost;
 class PostsController extends Controller
 {
 
@@ -55,17 +55,22 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
         //
-        $request -> validate([
-            'title' => 'bail|required|min:5|max:100',
-            'content' => 'required|min:10'
-        ]);
-        $post = new BlogPost();
-        $post->title = $request -> input('title');
-        $post->content = $request -> input('content');
-        $post->save();
+      $validated = $request -> validated();
+      $post = BlogPost::create($validated);
+
+        // $post = new BlogPost();
+        // $post->title = $validated['title'];
+        // $post->content = $validated['content'];
+
+        // $post->save();
+
+// $post2 = BlogPost::make();
+
+// $post2->save();
+        $request->session()->flash('status', 'the blog poast was created!');
         return redirect()->route('posts.show', ['post' => $post->id]);
 
     }
@@ -78,6 +83,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
+
         //
       
 //  abort_if(!isset($this -> blogPosts[$id]), 404);
@@ -99,6 +105,7 @@ class PostsController extends Controller
     public function edit($id)
     {
         //
+        return view('posts.edit', ['post' => BlogPost::findOrFail($id)]);
     }
 
     /**
@@ -108,9 +115,16 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePost $request, $id)
     {
         //
+        $post = BlogPost::findOrFail($id);
+        $validated = $request->validated();
+        $post->fill($validated);
+        $post->save();
+
+        $request->session()->flash('status', 'BLOG post was updated@');
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
@@ -122,5 +136,6 @@ class PostsController extends Controller
     public function destroy($id)
     {
         //
+        dd($id);
     }
 }
